@@ -18,9 +18,17 @@ class TodayMachesRepo {
         'x-rapidapi-host': 'sport-highlights-api.p.rapidapi.com',
       });
 
-      List decodedResponse = jsonDecode(response.body);
+      var decodedResponse = jsonDecode(response.body);
+      print(decodedResponse); // تحقق من البيانات التي تتلقاها
 
-      return decodedResponse.map((e) => MatchParams.fromJson(e)).toList();
+      // تحقق من وجود حقل matches
+      if (decodedResponse['data'] != null && decodedResponse['data'] is List) {
+        return (decodedResponse['data'] as List)
+            .map((e) => MatchParams.fromJson(e))
+            .toList();
+      } else {
+        throw Exception('Expected a list of matches');
+      }
     } catch (e) {
       print('Error occurred: $e');
       return []; // إرجاع قائمة فارغة في حالة الخطأ

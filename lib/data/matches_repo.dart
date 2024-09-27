@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:football_app/data/matches_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class TodayMachesRepo {
   Future<List<MatchParams>> getTodayMaches() async {
     var client = http.Client();
-
-    var params = {'date': '2023-08-06'};
+    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    var params = {'date': date};
     var url = 'https://sport-highlights-api.p.rapidapi.com/football/matches' +
         '?' +
         Uri(queryParameters: params).query;
